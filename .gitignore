@@ -15,8 +15,7 @@
 # production
 /build
 #build config 
-/config 
-.index.config.js
+
 
 # misc
 .DS_Store
