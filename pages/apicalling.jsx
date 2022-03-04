@@ -4,14 +4,15 @@ import { config } from "../config/index.config";
 import { SelectApi } from "../components/SelectApi";
 import { ParamInput } from "../components/ParamInput";
 import { Button } from "@mui/material";
-import axios from 'axios'
+import * as styles from "../styles/ApiCalling.module.css";
+import axios from "axios";
 const ApiCalling = () => {
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");
   const [inputsValue, setInputsValue] = useState("");
   const [inputs, setInputs] = useState("");
-  const [res, setRes] = useState('')
+  const [res, setRes] = useState("");
   const handleChange = (event) => {
     setApiSelected(event.target.value);
   };
@@ -38,7 +39,7 @@ const ApiCalling = () => {
       };
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
-    delete reduced.action 
+    delete reduced.action;
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
@@ -50,46 +51,38 @@ const ApiCalling = () => {
     ));
     setInputs(inputs);
   }, [apiSelected]);
-const handleClick = () =>{
-    console.log('inputs value', inputsValue)
-   
-    const paramValue = Object.keys(inputsValue).map(key => inputsValue[key])
-    console.log("🚀 ~ file: ApiCalling.jsx ~ line 55 ~ handleClick ~ paramValue", paramValue)
-    console.log('url', config.api[apiSelected](...paramValue))
-    axios.get(config.api[apiSelected](...paramValue)).then(res =>{
-       setRes(res.data)
-    })
-}
+  const handleClick = () => {
+    const paramValue = Object.keys(inputsValue).map((key) => inputsValue[key]);
+    axios.get(config.api[apiSelected](...paramValue)).then((res) => {
+      setRes(res.data);
+    });
+  };
   return (
     <React.Fragment>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "#9c8bd8",
-          height: "600px",
-          overflowY: "auto",
-        }}
-      >
-        <div style={{ padding: "2rem" }}>
+      <div className={styles.container}>
+        <div className={styles.wrapperInputs}>
           <SelectApi
             handleChange={handleChange}
             apis={apiEndpoints}
             apiSelected={apiSelected || "choose an Api"}
           ></SelectApi>
-          {inputs && <div className="container-inputs">{inputs}</div>}
-          <div style={{ margin: "1rem auto" }}>
-            <Button 
-            onClick = {handleClick}
-              style={{ width: "480px" }}
-              variant="contained"
-              disabled={!inputs}
-            >
-              Invia
-            </Button>
-          </div>
-          {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>}
+          {inputs && (
+            <div>
+              {" "}
+              {inputs}
+              <Button
+                fullWidth
+                onClick={handleClick}
+                variant="contained"
+                disabled={!inputs}
+              >
+                Invia
+              </Button>
+            </div>
+          )}
         </div>
+
+        {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>}
       </div>
     </React.Fragment>
   );

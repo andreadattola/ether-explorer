@@ -1,26 +1,22 @@
 import { Input, InputLabel, FormControl, FormHelperText } from "@mui/material";
+import * as styles from "../styles/ApiCalling.module.css";
 
 export const ParamInput = (props) => {
   if (!props.param) return <p>This api endpoints not need any param</p>;
 
   return (
     <>
-      <FormControl style={{ display: "block" }} variant="standard">
+      <FormControl style={{marginBottom : '1rem'}} fullWidth className={styles.textInput} variant="standard">
         <InputLabel
-          style={{
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            color: "rgb(46, 241, 176)",
-          }}
+          className={styles.textInputLabel}
           htmlFor="component-helper"
         >
           {props.name}
         </InputLabel>
         <Input
+          className={styles.textInput}
           name={props.name}
           fullWidth
-          color="primary"
-          style={{ color: "#fff" }}
           id={props.name}
           onChange={props.handleInputs}
           defaultValue={props.param}
