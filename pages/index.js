@@ -1,9 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
+import { useRouter } from 'next/router'
+import React from 'react'
 export default function Home() {
-  window.location.href = 'https://ether-explorer-unipi-pwwjwgkx3-andreadattola.vercel.app/apicalling'
+  const router = useRouter()
+  React.useEffect(()=>{
+    router.push('/apicalling')
+
+  },[])
   return (
     <div className={styles.container}>
       <Head>
