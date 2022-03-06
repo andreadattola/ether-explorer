@@ -6,6 +6,8 @@ import { ParamInput } from "../components/ParamInput";
 import { Button } from "@mui/material";
 import * as styles from "../styles/ApiCalling.module.css";
 import axios from "axios";
+import { getRightDate } from "../utils/getRightDate";
+import Chart from "../components/Chart";
 const ApiCalling = () => {
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
@@ -16,7 +18,6 @@ const ApiCalling = () => {
   const handleChange = (event) => {
     setApiSelected(event.target.value);
   };
-  // function for inputs param
   const handleInputs = (event) => {
     const { value, name } = event.target;
     setInputsValue((prevState) => {
@@ -57,6 +58,12 @@ const ApiCalling = () => {
       setRes(res.data);
     });
   };
+  useEffect(() => {
+    if (!res || apiSelected !== "getInternalTransactionsListByAddress") return;
+    console.log("res", res);
+    const { result: results } = res;
+    results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
+  }, [res]);
   return (
     <React.Fragment>
       <div className={styles.container}>
@@ -82,7 +89,10 @@ const ApiCalling = () => {
           )}
         </div>
 
-        {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>}
+        {/* {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>} */}
+        {res && apiSelected === "getInternalTransactionsListByAddress" && (
+          <Chart data={res}></Chart>
+        )}
       </div>
     </React.Fragment>
   );
