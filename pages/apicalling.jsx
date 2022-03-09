@@ -15,6 +15,8 @@ const ApiCalling = () => {
   const [inputsValue, setInputsValue] = useState("");
   const [inputs, setInputs] = useState("");
   const [res, setRes] = useState("");
+  const renderChart =
+    res && apiSelected === "getInternalTransactionsListByAddress";
   const handleChange = (event) => {
     setApiSelected(event.target.value);
   };
@@ -63,6 +65,7 @@ const ApiCalling = () => {
     console.log("res", res);
     const { result: results } = res;
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
+    console.log('res time stamp', res)
   }, [res]);
   return (
     <React.Fragment>
@@ -90,9 +93,7 @@ const ApiCalling = () => {
         </div>
 
         {/* {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>} */}
-        {res && apiSelected === "getInternalTransactionsListByAddress" && (
-          <Chart data={res}></Chart>
-        )}
+        {res && <Chart data={res}/>}
       </div>
     </React.Fragment>
   );

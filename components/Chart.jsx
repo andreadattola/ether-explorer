@@ -1,33 +1,46 @@
 import React, { useEffect } from "react";
-import{ HorizontalBar } from "react-chartjs-2";
-const Chart = (props) => {
-  const [dataChart, setDataCharts] = React.useState("");
-  
-  const { result: results } = props.data;
-  const gas = results.map((data) => data.gas);
-  const timeStamp = results.map((data) => data.timeStamp);
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
-  const data = {
-    labels: timeStamp,
-    datasets: [
-      {
-        label: "Dataset",
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgb(11,227,210)",
-        borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,0,54,0.4)",
-        hoverBorderColor: "rgb(0,88,101)",
-        data: gas,
-      },
-    ],
-  };
-  React.useEffect(() => {
+const Chart = (props) => {
+  
+  const [dataChart, setDataCharts] = React.useState({ loading: true });
+
+  useEffect(() => {
+    if (!props.data) return;
+    const data = [];
+    const { result: results } = props.data;
+    const gas = results.map((data) => data.gas);
+    const timeStamp = results.map((data) => data.timeStamp);
+    gas.map((el, i) => {
+      if (!timeStamp[i]) return;
+      data.push({ date: timeStamp[i], gas: Number(el) });
+    });
     setDataCharts(data);
-  }, []);
+  }, [props.data]);
+
+  if (dataChart.loading) return <div>Loading chart...</div>;
   return (
     <div>
-      <h2>Horizontal Bar Example</h2>
-      <HorizontalBar data={dataChart} width={400} height={400} />
+      <h2>LineChart</h2>
+      <LineChart
+        width={600}
+        height={300}
+        data={dataChart}
+        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+      >
+        <Line type="monotone" dataKey="gas" stroke="#8884d8" />
+        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+        <XAxis dataKey="date" />
+        <YAxis dataKey='gas'/>
+        <Tooltip />
+      </LineChart>
     </div>
   );
 };
