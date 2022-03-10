@@ -78,5 +78,14 @@ export const config = {
       apiKey = etherscanApiKey
     ) =>
       `${endpointURLs.Mainnet}/api?module=account&action=txlistinternal&txhash=${txhash},&apikey=${apiKey}`,
+    getNftErc726: (
+      contractaddress = '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+      address = '0x6975be450864c02b4613023c2152ee0743572325',
+      page = 1,
+      offset = 100,
+      startblock = 0,
+      endblock = 27025780,
+      sort = 'asc',
+      apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=account&action=tokennfttx&contractaddress=${contractaddress}&address=${address}&page=${page}&offset=${offset}&startblock=${startblock}&endblock=${endblock}&sort=${sort}&apikey=${apikey}`
   },
 };
