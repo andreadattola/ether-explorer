@@ -8,6 +8,7 @@ import * as styles from "../styles/ApiCalling.module.css";
 import axios from "axios";
 import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
+import CustomPieChart from "../components/PieChart";
 const ApiCalling = () => {
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
@@ -17,8 +18,12 @@ const ApiCalling = () => {
   const [res, setRes] = useState("");
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
+  const renderCharts = {
+    getInternalTransactionsByTransactionHash : <CustomPieChart></CustomPieChart>
+  }
   const handleChange = (event) => {
     setApiSelected(event.target.value);
+    setRes("");
   };
   const handleInputs = (event) => {
     const { value, name } = event.target;
@@ -65,7 +70,7 @@ const ApiCalling = () => {
     console.log("res", res);
     const { result: results } = res;
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
-    console.log('res time stamp', res)
+    console.log("res time stamp", res);
   }, [res]);
   return (
     <React.Fragment>
@@ -93,7 +98,10 @@ const ApiCalling = () => {
         </div>
 
         {/* {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>} */}
-        {res && <Chart data={res}/>}
+        {renderChart && <Chart data={res} />}
+
+        {!renderChart && res && <pre>{JSON.stringify(res, undefined, 2)}</pre>}
+        {renderCharts[apiSelected]}
       </div>
     </React.Fragment>
   );

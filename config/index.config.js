@@ -73,5 +73,10 @@ export const config = {
       apiKey = etherscanApiKey
     ) =>
       `${endpointURLs.Mainnet}/api?module=account&action=txlistinternal&address=${address}&startblock=${startBlock}&endblock=${endBlock}&page=${page}&offset=${offset}&sort=${sort}&apikey=${apiKey}`,
+    getInternalTransactionsByTransactionHash: (
+      txhash = "0x40eb908387324f2b575b4879cd9d7188f69c8fc9d87c901b9e2daaea4b442170",
+      apiKey = etherscanApiKey
+    ) =>
+      `${endpointURLs.Mainnet}/api?module=account&action=txlistinternal&txhash=${txhash},&apikey=${apiKey}`,
   },
 };
