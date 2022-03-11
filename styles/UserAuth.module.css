@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 550px;
+  min-height: 400px;
+  border: 1px solid red;
+}
+.loginCard {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  
+  
+}
+.leftSideLoginCard {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(250, 119, 119, 0.897);
+
+}
+.leftSideLoginCardTitle {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+.leftSideLoginCardText {
+  color: rgba(255, 255, 255, 0.438);
+  font-size: 16px;
+  font-weight: 400;
+}
+.RightSideLoginCard {
+  width: 50%;
+  
+  align-items: center;
+}
+.liLoginCard {
+  list-style-type: circle;
+}
+.formRegistration{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: whitesmoke;
+}
+.formButtons{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: baseline;
+}
