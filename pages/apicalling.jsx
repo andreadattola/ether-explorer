@@ -9,7 +9,8 @@ import axios from "axios";
 import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
 import CustomPieChart from "../components/PieChart";
-const ApiCalling = () => {
+const ApiCalling = ({users}) => {
+  console.log('users',users)
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");
@@ -107,3 +108,16 @@ const ApiCalling = () => {
   );
 };
 export default ApiCalling;
+export async function getServerSideProps(context) {
+  let res = await fetch("http://localhost:3000/api/users", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  let users = await res.json();
+
+  return {
+    props: { users },
+  };
+}
