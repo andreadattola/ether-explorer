@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       const { email, password } = bodyObject;
       console.log("bodyObject ", bodyObject);
       if ((await db.collection("users").countDocuments({ email })) > 0) {
-        return res.status(403).send("The email has already been used.");
+        return res.status(403).json({success: false, message: "The email has already been used."});
       }
       const user = await db
         .collection("users")

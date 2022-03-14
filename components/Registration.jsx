@@ -10,7 +10,9 @@ export const Registration = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
+    setError,
   } = useForm();
   const [registrationStatus, setRegistrationStatus] = React.useState("");
   const onSubmit = async (data) => {
@@ -18,8 +20,13 @@ export const Registration = () => {
     const isLoggedIn = await axios
       .post("/api/register", data)
       .then((dataRes) => setRegistrationStatus(dataRes.data))
+      .then(() => reset({ ...data }))
       .catch((error) => {
-        console.log("error", error);
+        console.log("error call", error);
+        setError("email", {
+          type: "manual",
+          message: error.message,
+        });
       });
   };
   React.useEffect(() => {
@@ -35,8 +42,8 @@ export const Registration = () => {
         margin={"normal"}
         type="email"
         error={handleInputErrors(errors, "email").error}
-        helperText={handleInputErrors(errors, "email").message}
-        {...register("email", { required: true })}
+        helperText={errors["email"]?.message}
+        {...register("email", { required: "This field is required!" })}
       />
 
       {/* include validation with required or other standard HTML validation rules */}
@@ -61,7 +68,7 @@ export const Registration = () => {
       {/* errors will return when field validation fails  */}
       <div className={styles.formButtons}>
         <Button
-          style={{ width: "65%", marginTop: "16px", marginBottom: "8px" }}
+          style={{ width: "50%", marginTop: "16px", marginBottom: "8px" }}
           variant="outlined"
           value="Accedi"
           type="submit"

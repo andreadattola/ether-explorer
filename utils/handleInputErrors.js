@@ -1,8 +1,8 @@
 export const handleInputErrors = (errors, name) => {
-  console.log("errors", errors);
+  console.log("errors handle", errors);
   let message = "";
   const input = errors[name];
-  console.log(input, "input");
+ 
   if (!input) return {error : false, message :false};
   switch (input.type) {
     case "required":
