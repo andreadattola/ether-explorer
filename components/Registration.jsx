@@ -81,3 +81,4 @@ export const Registration = () => {
     </form>
   );
 };
+/* MONGODB_URI=mongodb+srv://andreaunipi:C!8gt_pNdtr.DyD@cluster0.apxyg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority */
