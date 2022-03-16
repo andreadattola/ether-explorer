@@ -1,5 +1,4 @@
 export const handleInputErrors = (errors, name) => {
-  console.log("errors handle", errors);
   let message = "";
   const input = errors[name];
  

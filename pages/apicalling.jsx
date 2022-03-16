@@ -9,6 +9,8 @@ import axios from "axios";
 import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
 import CustomPieChart from "../components/PieChart";
+import { getCookieValue } from "../utils/getCookie";
+import { useRouter } from "next/router";
 const ApiCalling = ({users}) => {
   console.log('users',users)
   const apiEndpoints = Object.keys(config.api);
@@ -17,6 +19,12 @@ const ApiCalling = ({users}) => {
   const [inputsValue, setInputsValue] = useState("");
   const [inputs, setInputs] = useState("");
   const [res, setRes] = useState("");
+  const router = useRouter()
+  useEffect(()=>{
+  const cookie = getCookieValue('etherLogin')
+  console.log('cookie', cookie)
+  if(!cookie) router.push('/login')
+  },[])
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {

@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { handleInputErrors } from "../utils/handleInputErrors";
 import axios from "axios";
-import { Button, Input, Link, TextField } from "@mui/material";
+import { Button, Link, TextField } from "@mui/material";
 import * as styles from "../styles/UserAuth.module.css";
+import { useRouter } from "next/router";
 
 export const Registration = () => {
   const {
@@ -15,6 +15,7 @@ export const Registration = () => {
     setError,
   } = useForm();
   const [registrationStatus, setRegistrationStatus] = React.useState("");
+  const router = useRouter()
   const onSubmit = async (data) => {
     //chiamata api login
     const isLoggedIn = await axios
@@ -22,15 +23,21 @@ export const Registration = () => {
       .then((dataRes) => setRegistrationStatus(dataRes.data))
       .then(() => reset({ ...data }))
       .catch((error) => {
-        console.log("error call", error);
+        console.log("error call", error.response?.data);
+        const errorMessage = error.response?.data?.message
         setError("email", {
           type: "manual",
-          message: error.message,
+          message: errorMessage || 'Qualcosa è andato storto!',
         });
       });
   };
   React.useEffect(() => {
-    if (!registrationStatus) return;
+    if (!registrationStatus || !registrationStatus.success) return;
+    const {registration, success, user} = registrationStatus
+    const date = new Date()
+    const cookieData = {email: user.email, id : user._id, expiry: date.getDate() + 30}
+    document.cookie = `etherLogin=${JSON.stringify(cookieData)}`
+    router.push('/apicalling')
     console.log("registrationStatus", registrationStatus);
   }, [registrationStatus]);
   return (
@@ -41,7 +48,7 @@ export const Registration = () => {
         style={{ width: "65%" }}
         margin={"normal"}
         type="email"
-        error={handleInputErrors(errors, "email").error}
+        error={errors["email"] || false}
         helperText={errors["email"]?.message}
         {...register("email", { required: "This field is required!" })}
       />
@@ -52,18 +59,18 @@ export const Registration = () => {
         style={{ width: "65%" }}
         margin={"normal"}
         type="password"
-        error={handleInputErrors(errors, "password").error}
-        helperText={handleInputErrors(errors, "password").message}
-        {...register("password", { required: true })}
+        error={errors["password"]|| false}
+        helperText={errors["password"]?.message}
+        {...register("password", { required: "This field is required!" })}
       />
       <TextField
         style={{ width: "65%" }}
         margin={"normal"}
         placeholder="apiKey*"
         type="text"
-        error={handleInputErrors(errors, "apiKey").error}
-        helperText={handleInputErrors(errors, "apiKey").message}
-        {...register("apiKey", { required: true })}
+        error={errors["apiKey"] || false}
+        helperText={errors["apiKey"]?.message}
+        {...register("apiKey", { required: "This field is required!" })}
       />
       {/* errors will return when field validation fails  */}
       <div className={styles.formButtons}>

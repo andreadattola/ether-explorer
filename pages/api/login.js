@@ -11,9 +11,9 @@ export default async function handler(req, res) {
       console.log("bodyObject ", bodyObject);
       let user = await db
         .collection("users")
-        .findOne({ username: bodyObject.username, password: bodyObject.password });
+        .findOne({ email: bodyObject.email, password: bodyObject.password });
      if(user) res.status(201).json({success: true, user : user})
-     if(!user) res.status(203).json({success: false, user : 'user not found'})
+     if(!user) res.status(403).json({success: false, message : 'user not found'})
       break;
     /*   case "GET":
       const users = await db.collection("users").find({}).toArray();
