@@ -11,25 +11,26 @@ import Chart from "../components/Chart";
 import CustomPieChart from "../components/PieChart";
 import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
-const ApiCalling = ({users}) => {
-  console.log('users',users)
+import CsvDownload from "react-json-to-csv";
+const ApiCalling = ({ users }) => {
+  console.log("users", users);
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");
   const [inputsValue, setInputsValue] = useState("");
   const [inputs, setInputs] = useState("");
   const [res, setRes] = useState("");
-  const router = useRouter()
-  useEffect(()=>{
-  const cookie = getCookieValue('etherLogin')
-  console.log('cookie', cookie)
-  if(!cookie) router.push('/login')
-  },[])
+  const router = useRouter();
+  useEffect(() => {
+    const cookie = getCookieValue("etherLogin");
+    console.log("cookie", cookie);
+    if (!cookie) router.push("/login");
+  }, []);
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {
-    getInternalTransactionsByTransactionHash : <CustomPieChart></CustomPieChart>
-  }
+    getInternalTransactionsByTransactionHash: <CustomPieChart></CustomPieChart>,
+  };
   const handleChange = (event) => {
     setApiSelected(event.target.value);
     setRes("");
@@ -81,6 +82,10 @@ const ApiCalling = ({users}) => {
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
     console.log("res time stamp", res);
   }, [res]);
+  const handleDownload =() =>{
+    console.log('dati da scaricare', res)
+
+  }
   return (
     <React.Fragment>
       <div className={styles.container}>
@@ -109,7 +114,13 @@ const ApiCalling = ({users}) => {
         {/* {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>} */}
         {renderChart && <Chart data={res} />}
 
-        {!renderChart && res && <pre>{JSON.stringify(res, undefined, 2)}</pre>}
+        {res && (
+          <div style={{background : 'white'}}>
+            {" "}
+            <pre>{JSON.stringify(res, undefined, 2)}</pre>
+            <CsvDownload data={res.result}>Json to CSV</CsvDownload>
+          </div>
+        )}
         {renderCharts[apiSelected]}
       </div>
     </React.Fragment>

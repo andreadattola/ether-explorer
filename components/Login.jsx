@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 import { Button, Input, Link, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as styles from "../styles/UserAuth.module.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { LOGIN } from "../redux/actions/login";
 
 export const Login = () => {
   const {
@@ -16,34 +18,33 @@ export const Login = () => {
     formState: { errors },
   } = useForm();
   const [loginStatus, setLoginStatus] = React.useState("");
-  const router = useRouter()
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const loginState = useSelector((state) => state.login);
   const onSubmit = async (data) => {
-    //chiamata api login
-    const isLoggedIn = await axios
-      .post("/api/login", data)
-      .then((dataRes) => setLoginStatus(dataRes.data))
-      .then(() => reset({ ...data }))
-      .catch((error) => {
-        console.log("error call", error.response?.data);
-        const errorMessage = error.response?.data?.message;
-        setError("email", {
-          type: "manual",
-          message: errorMessage || "Qualcosa è andato storto!",
-        });
-      });
+    dispatch({ type: LOGIN._REQUEST, data });
   };
   useEffect(() => {
-    if (!loginStatus) return;
-    const { success, user } = loginStatus;
-    const date = new Date()
-    const cookieData = {
-      email: user.email,
-      id: user._id,
-      expiry: date.getDate() + 30,
-    };
-    document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
-    router.push("/apicalling");
-  }, [loginStatus]);
+    console.log("selector", loginState);
+    if (loginState.loginError) {
+      return setError("email", {
+        type: "manual",
+        message: loginState.loginError || "Qualcosa è andato storto!",
+      });
+    }
+    if(!loginState.loginError && loginState.success){
+      const {user} = loginState
+      const date = new Date();
+      const cookieData = {
+        email: user.email,
+        id: user._id,
+        expiry: date.getDate() + 30,
+      };
+      document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
+      router.push("/apicalling");
+    }
+  }, [loginState]);
+
   return (
     <form className={styles.formRegistration} onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}

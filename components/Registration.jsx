@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Button, Link, TextField } from "@mui/material";
 import * as styles from "../styles/UserAuth.module.css";
 import { useRouter } from "next/router";
-
+import { useDispatch, useSelector } from "react-redux";
+import { REGISTRATION } from "../redux/actions/registration";
+import { LOGIN } from "../redux/actions/login";
 export const Registration = () => {
   const {
     register,
@@ -14,32 +16,74 @@ export const Registration = () => {
     formState: { errors },
     setError,
   } = useForm();
-  const [registrationStatus, setRegistrationStatus] = React.useState("");
-  const router = useRouter()
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const registrationState = useSelector((state) => state.registration);
+  const loginState = useSelector((state) => state.login);
   const onSubmit = async (data) => {
-    //chiamata api login
-    const isLoggedIn = await axios
-      .post("/api/register", data)
-      .then((dataRes) => setRegistrationStatus(dataRes.data))
-      .then(() => reset({ ...data }))
-      .catch((error) => {
-        console.log("error call", error.response?.data);
-        const errorMessage = error.response?.data?.message
-        setError("email", {
-          type: "manual",
-          message: errorMessage || 'Qualcosa è andato storto!',
-        });
-      });
+    dispatch({ type: REGISTRATION._REQUEST, data });
   };
   React.useEffect(() => {
-    if (!registrationStatus || !registrationStatus.success) return;
-    const {registration, success, user} = registrationStatus
-    const date = new Date()
+    if (!registrationState) return;
+    console.log("registrationState.succes", registrationState.success);
+    if (registrationState.registrationError) {
+      console.log("error");
+      return setError("email", {
+        type: "manual",
+        message:
+          registrationState.registrationError || "Qualcosa è andato storto!",
+      });
+    }
+    if (registrationState.success) {
+      console.log("registrationState.success", registrationState.success);
+      const {
+        user: { insertedId },
+      } = registrationState;
+
+      if (!insertedId) return;
+      const data = { insertedId: insertedId };
+      dispatch({ type: LOGIN._REQUEST, data });
+    }
+    /*   const date = new Date()
     const cookieData = {email: user.email, id : user._id, expiry: date.getDate() + 30}
     document.cookie = `etherLogin=${JSON.stringify(cookieData)}`
-    router.push('/apicalling')
-    console.log("registrationStatus", registrationStatus);
-  }, [registrationStatus]);
+    router.push('/apicalling') */
+  }, [registrationState]);
+  useEffect(() => {
+    console.log("selector", loginState);
+    if (loginState.loginError) {
+      return setError("email", {
+        type: "manual",
+        message: loginState.loginError || "Qualcosa è andato storto!",
+      });
+    }
+    if (!loginState.loginError && loginState.success) {
+      const { user } = loginState;
+      const date = new Date();
+      const cookieData = {
+        email: user.email,
+        id: user._id,
+        expiry: date.getDate() + 30,
+      };
+      document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
+      /*  router.push("/apicalling"); */
+    }
+  }, [loginState]);
+  if (loginState.success)
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        La registrazione è andata a buon fine, Verrai reindirizzato
+        automaticamente alla landing. Se non dovesse succedere{" "}
+        <Link href="/apicalling">clicca qua</Link>
+      </div>
+    );
   return (
     <form className={styles.formRegistration} onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}
@@ -59,7 +103,7 @@ export const Registration = () => {
         style={{ width: "65%" }}
         margin={"normal"}
         type="password"
-        error={errors["password"]|| false}
+        error={errors["password"] || false}
         helperText={errors["password"]?.message}
         {...register("password", { required: "This field is required!" })}
       />

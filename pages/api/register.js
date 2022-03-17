@@ -8,26 +8,18 @@ export default async function handler(req, res) {
     case "POST":
       console.log("reqbody", req.body);
       let bodyObject = req.body;
-      const { email, password } = bodyObject;
+      const { email, password, apiKey } = bodyObject;
       console.log("bodyObject ", bodyObject);
       if ((await db.collection("users").countDocuments({ email })) > 0) {
         return res.status(403).json({success: false, message: "The email has already been used."});
       }
       const user = await db
         .collection("users")
-        .insertOne({ email, password: password });
+        .insertOne({ email, password, apiKey });
       if (user) {
-        /*  res.json({ status: 201, user: user }); */
-        let loggedInUser = await db
-          .collection("users")
-          .findOne({
-            username: bodyObject.username,
-            password: bodyObject.password,
-          });
-        if (loggedInUser)
-          res.status(201).json({ success: true, registration : user, user: loggedInUser });
+          res.status(201).json({ success: true, user});
         if (!user)
-          res.status(203).json({ success: false, user: "user not found" });
+          res.status(203).json({ success: false, user: "Qualcosa è andato storto!" });
       }
       break;
     case "GET":
