@@ -12,11 +12,18 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/router";
+import useLogin from "../utils/isLoggedIn";
+import * as styles from "../styles/HeaderTab.module.css";
 
-const pages = ["ApiCalling", "Pricing", "Blog"];
+const pages = [
+  { route:  "/", label: "Home" },
+  { route: "/apicalling", label: "ApiCalling" },
+  { route: "/profile", label: "Profile" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export const HeaderTab = (props) => {
+  const isLoggedIn = useLogin();
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -28,14 +35,16 @@ export const HeaderTab = (props) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event) => {
+    const {target:{name}} = event
+    router.push(name)
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  console.log("router", router);
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -79,8 +88,8 @@ export const HeaderTab = (props) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                  <Typography className={router.route === page.route ? styles.isActive : ''} textAlign="center">{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -96,16 +105,18 @@ export const HeaderTab = (props) => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.label}
+                className={router.route === page.route ? styles.isActive : ''}
+                name = {page.route}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
 
-          {props.isLoggedIn.success && (
+          {isLoggedIn.success && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -136,7 +147,7 @@ export const HeaderTab = (props) => {
               </Menu>
             </Box>
           )}
-          {!props.isLoggedIn.success && (
+          {!isLoggedIn.success && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Login">
                 <IconButton onClick={() => router.push("/login")} sx={{ p: 0 }}>

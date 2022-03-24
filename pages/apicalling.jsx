@@ -12,6 +12,8 @@ import CustomPieChart from "../components/PieChart";
 import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
 import CsvDownload from "react-json-to-csv";
+import useLogin from "../utils/isLoggedIn";
+
 const ApiCalling = ({ users }) => {
   console.log("users", users);
   const apiEndpoints = Object.keys(config.api);
@@ -21,6 +23,8 @@ const ApiCalling = ({ users }) => {
   const [inputs, setInputs] = useState("");
   const [res, setRes] = useState("");
   const router = useRouter();
+  const isLogeddin = useLogin();
+
   useEffect(() => {
     const cookie = getCookieValue("etherLogin");
     console.log("cookie", cookie);
@@ -77,17 +81,17 @@ const ApiCalling = ({ users }) => {
   };
   useEffect(() => {
     if (!res || apiSelected !== "getInternalTransactionsListByAddress") return;
-    console.log("res", res);
+   
     const { result: results } = res;
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
     console.log("res time stamp", res);
   }, [res]);
-  const handleDownload =() =>{
-    console.log('dati da scaricare', res)
-
-  }
+  const handleDownload = () => {
+    console.log("dati da scaricare", res);
+  };
   return (
     <React.Fragment>
+    
       <div className={styles.container}>
         <div className={styles.wrapperInputs}>
           <SelectApi
@@ -115,7 +119,7 @@ const ApiCalling = ({ users }) => {
         {renderChart && <Chart data={res} />}
 
         {res && (
-          <div style={{background : 'white'}}>
+          <div style={{ background: "white" }}>
             {" "}
             <pre>{JSON.stringify(res, undefined, 2)}</pre>
             <CsvDownload data={res.result}>Json to CSV</CsvDownload>
