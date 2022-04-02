@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/router";
 import useLogin from "../utils/isLoggedIn";
 import * as styles from "../styles/HeaderTab.module.css";
+import { shouldNotRendered } from "../utils/shouldNotRendered";
 
 const pages = [
   { route:  "/", label: "Home" },
@@ -27,7 +28,7 @@ export const HeaderTab = (props) => {
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+if(shouldNotRendered(router.asPath)) return null
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

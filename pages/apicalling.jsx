@@ -8,11 +8,13 @@ import * as styles from "../styles/ApiCalling.module.css";
 import axios from "axios";
 import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
+import { DownloadJson } from "../components/DownloadJson";
 import CustomPieChart from "../components/PieChart";
 import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
-import CsvDownload from "react-json-to-csv";
+
 import useLogin from "../utils/isLoggedIn";
+import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
 
 const ApiCalling = ({ users }) => {
   console.log("users", users);
@@ -81,17 +83,14 @@ const ApiCalling = ({ users }) => {
   };
   useEffect(() => {
     if (!res || apiSelected !== "getInternalTransactionsListByAddress") return;
-   
+
     const { result: results } = res;
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
     console.log("res time stamp", res);
-  }, [res]);
-  const handleDownload = () => {
-    console.log("dati da scaricare", res);
-  };
+  }, [apiSelected, res]);
+
   return (
     <React.Fragment>
-    
       <div className={styles.container}>
         <div className={styles.wrapperInputs}>
           <SelectApi
@@ -115,14 +114,13 @@ const ApiCalling = ({ users }) => {
           )}
         </div>
 
-        {/* {res && <pre>{JSON.stringify(res, undefined, 2)}</pre>} */}
         {renderChart && <Chart data={res} />}
 
         {res && (
           <div style={{ background: "white" }}>
             {" "}
             <pre>{JSON.stringify(res, undefined, 2)}</pre>
-            <CsvDownload data={res.result}>Json to CSV</CsvDownload>
+            <WrapperDownloadButtons result={res?.result} apiSelected = {apiSelected} />
           </div>
         )}
         {renderCharts[apiSelected]}
