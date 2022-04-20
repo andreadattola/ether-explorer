@@ -8,13 +8,13 @@ import * as styles from "../styles/ApiCalling.module.css";
 import axios from "axios";
 import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
-import { DownloadJson } from "../components/DownloadJson";
 import CustomPieChart from "../components/PieChart";
 import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
 
 import useLogin from "../utils/isLoggedIn";
 import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
+import { GraphUI } from "../components/Graph";
 
 const ApiCalling = ({ users }) => {
   console.log("users", users);
@@ -31,13 +31,15 @@ const ApiCalling = ({ users }) => {
     const cookie = getCookieValue("etherLogin");
     console.log("cookie", cookie);
     if (!cookie) router.push("/login");
-  }, []);
+  }, [router]);
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {
     getInternalTransactionsByTransactionHash: <CustomPieChart></CustomPieChart>,
+    getListOfERC20TokenTransferEvents: <GraphUI res = {res}/>
   };
   const handleChange = (event) => {
+    console.log('change', event)
     setApiSelected(event.target.value);
     setRes("");
   };
@@ -64,6 +66,7 @@ const ApiCalling = ({ users }) => {
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
     delete reduced.action;
+    
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
@@ -77,6 +80,7 @@ const ApiCalling = ({ users }) => {
   }, [apiSelected]);
   const handleClick = () => {
     const paramValue = Object.keys(inputsValue).map((key) => inputsValue[key]);
+    console.log('paramvalue', paramValue)
     axios.get(config.api[apiSelected](...paramValue)).then((res) => {
       setRes(res.data);
     });

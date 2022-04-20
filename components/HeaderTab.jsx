@@ -126,7 +126,7 @@ if(shouldNotRendered(router.asPath)) return null
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
-                id="menu-appbar"
+                id="menu-appbar2"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
