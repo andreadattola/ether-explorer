@@ -1,8 +1,7 @@
 import React from "react";
-import { Button, Input, Link, TextField } from "@mui/material";
+import { Button, Link, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as styles from "../styles/UserAuth.module.css";
-import axios from "axios";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +24,7 @@ export const Login = () => {
     dispatch({ type: LOGIN._REQUEST, data });
   };
   useEffect(() => {
+    
     console.log("selector", loginState);
     if (loginState.loginError) {
       return setError("email", {

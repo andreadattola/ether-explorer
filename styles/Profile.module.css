@@ -1,0 +1,18 @@
+.container{
+    margin : 0 auto; 
+    
+}
+.wrapperInputs{
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+}
+.input{
+
+}
+.label{
+text-transform: capitalize;
+font-size: large;
+font-weight: bold;
+width: 20%;
+}

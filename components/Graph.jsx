@@ -56,7 +56,7 @@ export const GraphUI = (props) => {
         color: randomColor(),
       });
     });
-   graphStart.nodes =  graphStart.nodes.map((c, i) => ({
+    graphStart.nodes = graphStart.nodes.map((c, i) => ({
       ...c,
       color: {
         border: Color(colors[i]).darken(0.2).hex(),
@@ -71,12 +71,12 @@ export const GraphUI = (props) => {
         },
       },
     }));
-    graphStart.edges = graphStart.edges.map((e)=>({
+    graphStart.edges = graphStart.edges.map((e) => ({
       ...e,
-          width: 0.6,
-          color: { opacity: 0.8 }
-    }))
-    setGraph({...graphStart, selected: []});
+      width: 0.6,
+      color: { opacity: 0.8 },
+    }));
+    setGraph({ ...graphStart, selected: [] });
   }, [props]);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export const GraphUI = (props) => {
   };
   const refreshSelection = (selected) => {
     console.log("graph", graph);
-    
+
     setGraph(
       {
         ...graph,
