@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import useLogin from "../utils/isLoggedIn";
 import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
 import { GraphUI } from "../components/Graph";
+import { JsonTable } from "../components/Table";
 
 const ApiCalling = ({ users }) => {
   console.log("users", users);
@@ -36,10 +37,10 @@ const ApiCalling = ({ users }) => {
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {
     getInternalTransactionsByTransactionHash: <CustomPieChart></CustomPieChart>,
-    getListOfERC20TokenTransferEvents: <GraphUI res = {res}/>
+    getListOfERC20TokenTransferEvents: <GraphUI res={res} />,
   };
   const handleChange = (event) => {
-    console.log('change', event)
+    console.log("change", event);
     setApiSelected(event.target.value);
     setRes("");
   };
@@ -66,7 +67,7 @@ const ApiCalling = ({ users }) => {
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
     delete reduced.action;
-    
+
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
@@ -80,7 +81,7 @@ const ApiCalling = ({ users }) => {
   }, [apiSelected]);
   const handleClick = () => {
     const paramValue = Object.keys(inputsValue).map((key) => inputsValue[key]);
-    console.log('paramvalue', paramValue)
+    console.log("paramvalue", paramValue);
     axios.get(config.api[apiSelected](...paramValue)).then((res) => {
       setRes(res.data);
     });
@@ -100,11 +101,10 @@ const ApiCalling = ({ users }) => {
           <SelectApi
             handleChange={handleChange}
             apis={apiEndpoints}
-            apiSelected={apiSelected || "choose an Api"}
+            apiSelected={apiSelected || "choose an EndPoint"}
           ></SelectApi>
           {inputs && (
-            <div>
-              {" "}
+            <div className="try">
               {inputs}
               <Button
                 fullWidth
@@ -122,9 +122,11 @@ const ApiCalling = ({ users }) => {
 
         {res && (
           <div style={{ background: "white" }}>
-            {" "}
-            <pre>{JSON.stringify(res, undefined, 2)}</pre>
-            <WrapperDownloadButtons result={res?.result} apiSelected = {apiSelected} />
+            <JsonTable results={res.result} />
+            <WrapperDownloadButtons
+              result={res?.result}
+              apiSelected={apiSelected}
+            />
           </div>
         )}
         {renderCharts[apiSelected]}

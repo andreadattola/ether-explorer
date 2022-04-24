@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import Color from "color";
 import Graph from "react-graph-vis";
 import { colors } from "../utils/colors";
+import { v4 as uuidv4 } from "uuid";
 
 export const GraphUI = (props) => {
   const [graph, setGraph] = React.useState("");
+ 
   let network = {};
   function randomColor() {
     const red = Math.floor(Math.random() * 256)
@@ -226,17 +228,20 @@ export const GraphUI = (props) => {
       refreshSelection(event.nodes);
     },
   };
-  if (!graph) return <div>Loading</div>;
+  if (!graph) return null
   return (
-    <Graph
-      graph={graph}
-      options={options}
-      events={events}
-      getNetwork={(network) => {
-        network = network;
-        setTimeout(() => network.fit(), 2000);
-        //  if you want access to vis.js network api you can set the state in a parent component using this property
-      }}
-    />
+    <div id="graph" style={{ height: "600px" }}>
+      <Graph
+      key={uuidv4()}
+        graph={graph}
+        options={options}
+        events={events}
+        getNetwork={(network) => {
+          network = network;
+          setTimeout(() => network.fit(), 2000);
+          //  if you want access to vis.js network api you can set the state in a parent component using this property
+        }}
+      />
+    </div>
   );
 };

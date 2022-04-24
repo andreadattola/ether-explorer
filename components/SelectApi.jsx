@@ -1,5 +1,6 @@
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import * as styles from "../styles/ApiCalling.module.css";
+
+import * as styles from "../styles/select.module.css";
 
 export const SelectApi = (props) => {
   const options =
@@ -10,12 +11,12 @@ export const SelectApi = (props) => {
       </MenuItem>
     ));
   return (
-    <FormControl style={{marginBottom : '1rem'}} fullWidth>
+    <FormControl className={styles.form} fullWidth>
       <InputLabel className={styles.textInputLabel} id="demo-simple-select-label">
         {props.apiSelected}
       </InputLabel>
       <Select
-        className={styles.textInput}
+        className={styles.select}
         labelId="apiSelect"
         id="apiSelect"
         value={props.apiSelected}

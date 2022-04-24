@@ -1,0 +1,12 @@
+.select{
+    margin-bottom: 1.5rem;
+    color :var(--main-text-color)
+}
+.textInputLabel{
+    color :var(--primaryText) ;
+    text-transform: capitalize;
+  }
+  .form{
+     
+      width: 600px;
+  }

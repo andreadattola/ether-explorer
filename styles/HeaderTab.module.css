@@ -1,4 +1,11 @@
 .isActive{
-    color :  var(--main-text-color);
+    color :  var(--primaryText);
     border-radius: 1px solid grey;
+}
+.isntActive{
+    color : var(--secondary-text-color)
+}
+.headBar{
+    background-color: var(--primaryLight);
+    color : var(--primaryText)
 }

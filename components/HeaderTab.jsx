@@ -16,9 +16,10 @@ import useLogin from "../utils/isLoggedIn";
 import * as styles from "../styles/HeaderTab.module.css";
 import { shouldNotRendered } from "../utils/shouldNotRendered";
 
+
 const pages = [
   { route:  "/", label: "Home" },
-  { route: "/apicalling", label: "ApiCalling" },
+  { route: "/apicalling", label: "Analisi" },
   { route: "/profile", label: "Profile" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -47,16 +48,17 @@ if(shouldNotRendered(router.asPath)) return null
   };
   console.log("router", router);
   return (
-    <AppBar position="static">
+    <AppBar className={styles.headBar} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
+           color={'#388538'}
             variant="h6"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            LOGO
+            ETHERSCAN
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -90,24 +92,25 @@ if(shouldNotRendered(router.asPath)) return null
             >
               {pages.map((page) => (
                 <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                  <Typography className={router.route === page.route ? styles.isActive : ''} textAlign="center">{page.label}</Typography>
+                  <Typography className={router.route === page.route ? styles.isActive : styles.isntActive} textAlign="center">{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Typography
+          color={'#388538'}
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+            ETHERSCAN
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page.label}
-                className={router.route === page.route ? styles.isActive : ''}
+                className={router.route === page.route ? styles.isActive : styles.isntActive}
                 name = {page.route}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}

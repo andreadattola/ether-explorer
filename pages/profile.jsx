@@ -34,27 +34,41 @@ const Profile = () => {
       ...values,
       showPassword: !values.showPassword,
     });
-    
   };
   const dispatch = useDispatch();
+
+
+  React.useEffect(() => {
+    if (initialRender) return;
+   
+    if (isLoggedIn.success) {
+      const ui = Object.keys(user).map((input, index) =>
+        handleInputsProfile(
+          input,
+          user,
+          register,
+          handleClickShowPassword,
+          values
+        )
+      );
+    }else{
+      router.push('/login')
+    }
+    
+    setUiInputs(ui);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, initialRender]);
   React.useEffect(() => {
     setInitialRender(false);
   }, []);
-  React.useEffect(() => {
-    if (initialRender || !isLoggedIn) return;
-    if (!initialRender && !isLoggedIn.success) return router.push("/login");
-    const { user } = loginState;
-    const ui = Object.keys(user).map((input, index) =>
-      handleInputsProfile(input, user, register, handleClickShowPassword, values)
-    );
-    setUiInputs(ui);
-  }, [isLoggedIn.success]);
   const onSubmit = /* async */ (data) => {
     //  dispatch({ type: CHANGE._REQUEST, data });
     console.log("data", data);
   };
-  if (!uiInputs) return <p>Loading....</p>;
-  return (
+
+  return !uiInputs ? (
+    <div> Loading...</div>
+  ) : (
     <div className="container">
       <div className={styles.loginCard}>
         <div className={styles.leftSideLoginCard}>
@@ -78,7 +92,7 @@ const Profile = () => {
             {uiInputs}
             <div className={styles.formButtons}>
               <Button
-                style={{ width: "50%", marginTop: "16px", marginBottom: "8px", }}
+                style={{ width: "50%", marginTop: "16px", marginBottom: "8px" }}
                 variant="outlined"
                 value="Accedi"
                 type="submit"
@@ -86,7 +100,6 @@ const Profile = () => {
               >
                 Aggiorna i dati
               </Button>
-            
             </div>
           </form>
         </div>

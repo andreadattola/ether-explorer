@@ -1,0 +1,9 @@
+.tableHead {
+    background-color: rgba(250, 119, 119, 0.897);
+    color : white;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+.tableRows:nth-of-type(odd) {
+  background-color: rgba(183, 176, 176, 0.62);
+}

@@ -6,7 +6,7 @@ export const ParamInput = (props) => {
 
   return (
     <>
-      <FormControl style={{marginBottom : '1rem'}} fullWidth className={styles.textInput} variant="standard">
+      <FormControl style={{marginBottom : '1.5rem'}} fullWidth className={styles.textInput} variant="standard">
         <InputLabel
           className={styles.textInputLabel}
           htmlFor="component-helper"

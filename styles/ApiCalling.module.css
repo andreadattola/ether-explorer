@@ -1,23 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
 
-.container{
-    display: flex;
-    flex-direction: column;
-    height: auto;
-  
-    padding :2rem
+  padding: 2rem;
 }
 .wrapperInputs {
-    padding: 2rem;
-    width: 480px;
-    border-radius:10px ;
-    margin: 2rem auto;
-    background: var(--secondary-bg-color);
- 
-  }
-  .textInputLabel{
-    color : var(--main-text-color);
-    text-transform: capitalize;
-  }
-  .textInput{
-      color : #fff
-  }
+  margin: auto;
+  width: 600px;
+  background: var(--primaryLight);
+  margin-bottom: 4rem;
+}
+.textInputLabel {
+  color: var(--primaryText);
+  text-transform: capitalize;
+}
+.textInput {
+  color: var(--main-text-color);
+}
