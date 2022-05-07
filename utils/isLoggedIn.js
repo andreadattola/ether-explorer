@@ -10,18 +10,15 @@ const useLogin = () => {
   React.useEffect(() => {
     if (isLoggedIn.success) return;
     const cookie = getCookieValue("etherLogin");
-console.log('cookie', cookie)
-    if (!cookie && !window.location.href.includes("/login")){
-      if (!cookie) {
-        if (!window.location.href.includes("/login"))
-          return (window.location.href = "/login");
-      }} else {
-        if (JSON.parse(cookie).id)
-          dispatch({
-            type: LOGIN._REQUEST,
-            data: { _id: JSON.parse(cookie).id },
-          });
-      }
+    if (!cookie ) {
+      if(window.location.pathname !=='/login') return window.location.href = '/login'
+    } else {
+      if (JSON.parse(cookie).id)
+        dispatch({
+          type: LOGIN._REQUEST,
+          data: { _id: JSON.parse(cookie).id },
+        });
+    }
   }, []);
   return isLoggedIn;
 };
