@@ -39,6 +39,7 @@ export const JsonTable = (props) => {
     if (!columns) return;
     console.log("columns", columns);
   }, [columns]);
+  if(!props.results || props.results === 'Invalid API Key') return <p>{props.results || 'La ricerca non ha prodotto risultati'}</p>
   return columns ? (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -58,9 +59,9 @@ export const JsonTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.results
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+            {props.results && props.results
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((row) => {
                 return (
                   <TableRow
                     className={styles.tableRows}

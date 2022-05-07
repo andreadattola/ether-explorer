@@ -6,6 +6,7 @@ import { handleInputsProfile } from "../utils/handleInputsProfile";
 import * as styles from "../styles/UserAuth.module.css";
 import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
+import { UPDATE_USER } from "../redux/actions/updateUser";
 
 const Profile = () => {
   const isLoggedIn = useLogin();
@@ -14,6 +15,7 @@ const Profile = () => {
   const { user } = isLoggedIn;
   const loginState = useSelector((state) => state.login);
   const [initialRender, setInitialRender] = React.useState(true);
+  const updatedUser = useSelector((state) => state.updateUser);
   const {
     register,
     handleSubmit,
@@ -52,7 +54,7 @@ const Profile = () => {
         )
       );
     }else{
-      router.push('/login')
+      //router.push('/login')
     }
     
     setUiInputs(ui);
@@ -61,9 +63,21 @@ const Profile = () => {
   React.useEffect(() => {
     setInitialRender(false);
   }, []);
-  const onSubmit = /* async */ (data) => {
-    //  dispatch({ type: CHANGE._REQUEST, data });
-    console.log("data", data);
+  React.useEffect(()=>{
+    if(!initialRender){
+      
+      window.location.reload()
+    }
+  },[updatedUser])
+  const onSubmit =  async  (data) => {
+    let updateData = {}
+    Object.keys(isLoggedIn.user).map((userKey, i)=>{
+      isLoggedIn.user[userKey] !== data[userKey] ? updateData = {...updateData, [userKey] : data[userKey]} : null
+    })
+    Object.keys(updateData).forEach(key => updateData[key] === undefined ? delete updateData[key] : {});
+    data ={...updateData, _id: isLoggedIn.user._id}
+    console.log('data ups', data)
+      dispatch({ type: UPDATE_USER._REQUEST, data });
   };
 
   return !uiInputs ? (

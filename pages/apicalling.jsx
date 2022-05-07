@@ -19,6 +19,7 @@ import { JsonTable } from "../components/Table";
 
 const ApiCalling = ({ users }) => {
   console.log("users", users);
+  const use = useLogin()
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");
@@ -26,7 +27,6 @@ const ApiCalling = ({ users }) => {
   const [inputs, setInputs] = useState("");
   const [res, setRes] = useState("");
   const router = useRouter();
-  const isLogeddin = useLogin();
 
   useEffect(() => {
     const cookie = getCookieValue("etherLogin");
@@ -55,7 +55,7 @@ const ApiCalling = ({ users }) => {
     if (!apiSelected) return;
     const objRequiredParams = config.api[apiSelected]()
       .split("&")
-      .map((param, i) => {
+      .map((param) => {
         const valueAndkey = param.split("=");
         return { [valueAndkey[0]]: valueAndkey[1] };
       });
@@ -67,7 +67,8 @@ const ApiCalling = ({ users }) => {
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
     delete reduced.action;
-
+    console.log('useapikey', use.user.apiKey)
+    use.user?.apiKey ? reduced.apikey = use.user?.apiKey : null
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
@@ -135,7 +136,7 @@ const ApiCalling = ({ users }) => {
   );
 };
 export default ApiCalling;
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   let res = await fetch("http://localhost:3000/api/users", {
     method: "GET",
     headers: {

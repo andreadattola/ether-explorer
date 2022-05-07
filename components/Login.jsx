@@ -41,7 +41,7 @@ export const Login = () => {
         expiry: date.getDate() + 30,
       };
       document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
-      router.push("/apicalling");
+      window.location.pathname === '/login' && router.push("/apicalling");
     }
   }, [loginState]);
 

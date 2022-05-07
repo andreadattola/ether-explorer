@@ -8,7 +8,7 @@ const useLogin = () => {
   const isLoggedIn = useSelector((state) => state.login);
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (isLoggedIn.success) return;
+    if (isLoggedIn.success) return isLoggedIn;
     const cookie = getCookieValue("etherLogin");
     if (!cookie ) {
       if(window.location.pathname !=='/login') return window.location.href = '/login'

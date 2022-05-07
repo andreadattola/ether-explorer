@@ -16,7 +16,7 @@ const Chart = (props) => {
     if (!props.data) return;
     const data = [];
     const { result: results } = props.data;
-    const gas = results.map((data) => data.gas);
+    const gas = results?.map((data) => data.gas);
     const timeStamp = results.map((data) => data.timeStamp);
     gas.map((el, i) => {
       if (!timeStamp[i]) return;
@@ -24,7 +24,7 @@ const Chart = (props) => {
     });
     setDataCharts(data);
   }, [props.data]);
-
+  if(!props.results || props.data.results === 'Invalid API Key') return <p>{props.results || 'La ricerca non ha prodotto risultati'}</p>
   if (dataChart.loading) return <div>Loading chart...</div>;
   return (
     <div>

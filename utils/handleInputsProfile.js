@@ -33,7 +33,7 @@ export const handleInputsProfile = (
             {...register(input)}
             style={{ width: "65%" }}
             margin={"normal"}
-            value={user[input]}
+            defaultValue={user[input]}
             disabled
           ></TextField>
         </div>
@@ -51,7 +51,7 @@ export const handleInputsProfile = (
             style={{ width: "65%" }}
             margin={"normal"}
             type={values.showPassword ? "text" : "password"}
-            value={user[input]}
+            defaultValue={user[input]}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -78,7 +78,7 @@ export const handleInputsProfile = (
             {...register(input)}
             style={{ width: "65%" }}
             margin={"normal"}
-            // value={user[input]}
+            // defaultValue={user[input]}
             type="file"
             accept="image/*"
           ></TextField>
@@ -95,7 +95,7 @@ export const handleInputsProfile = (
             {...register(input)}
             style={{ width: "65%" }}
             margin={"normal"}
-            value={user[input]}
+            defaultValue={user[input]}
           ></TextField>
         </div>
       );

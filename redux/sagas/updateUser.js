@@ -3,11 +3,11 @@ import { UPDATE_USER } from "../actions/updateUser";
 import { setPayloadUpdateUser } from "../payload/updateUser";
 import axios from 'axios'
 
-function* UpdateUser({ data }) {
-  const user = data;
+function* UpdateUser({ data : body }) {
+  console.log('data saga', body)
+  //const user = data;
   try {
-    const body = setPayloadUpdateUser(user);
-    console.log("body", body);
+   
     const res = yield call((args) => axios.post("/api/updateUser", args), body);
     console.log("res", res);
     if (!res)
