@@ -1,13 +1,14 @@
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 import * as styles from "../styles/select.module.css";
+import { getApiName } from "../utils/getApiName";
 
 export const SelectApi = (props) => {
   const options =
     props.apis &&
     props.apis.map((api, i) => (
       <MenuItem key={api + i} value={api}>
-        {api}
+        {getApiName(api)} 
       </MenuItem>
     ));
   return (

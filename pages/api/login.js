@@ -9,27 +9,14 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "POST":
       let bodyObject = req.body;
-
+      if(!bodyObject) return res.status(403).json({ success: false, message: "user not found" });
+    console.log('bodyObject', bodyObject)
       let user = !bodyObject._id
         ? await db.collection("users").findOne({ ...bodyObject })
         : await db
             .collection("users")
             .findOne({ _id: ObjectId(bodyObject._id) });
-      if (user) {
-        let newUser = await db
-          .collection("users")
-          .findOneAndUpdate(
-            { _id: user._id },
-            { $set: { lastLogin: getRightDate(new Date().getTime()) } },
-            { new: true, runValidators: true },
-            (err, doc) => {
-              if (err) {
-                console.log("err", err);
-              }
-              if (doc) res.status(201).json({ success: true, user: doc.value });
-            }
-          );
-      }
+      if (user)  res.status(201).json({ success: true, user });
       if (!user)
         res.status(403).json({ success: false, message: "user not found" });
       break;

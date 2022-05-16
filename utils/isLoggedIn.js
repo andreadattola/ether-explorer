@@ -11,7 +11,7 @@ const useLogin = () => {
     if (isLoggedIn.success) return isLoggedIn;
     const cookie = getCookieValue("etherLogin");
     if (!cookie ) {
-      if(window.location.pathname !=='/login') return window.location.href = '/login'
+      if(window.location.pathname !=='/login' && window.location.pathname !== '/register') return window.location.href = '/login'
     } else {
       if (JSON.parse(cookie).id)
         dispatch({

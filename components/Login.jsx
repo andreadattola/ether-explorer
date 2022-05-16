@@ -35,9 +35,11 @@ export const Login = () => {
     if(!loginState.loginError && loginState.success){
       const {user} = loginState
       const date = new Date();
+      console.log('user', user)
       const cookieData = {
         email: user.email,
         id: user._id,
+        apikey : user.apiKey,
         expiry: date.getDate() + 30,
       };
       document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
@@ -80,7 +82,7 @@ export const Login = () => {
         >
           Accedi
         </Button>
-        <Link>Non hai un account? Registrati</Link>
+        <Link href="/register">Non hai un account? Registrati</Link>
       </div>
     </form>
   );

@@ -6,16 +6,17 @@ export default async function handler(req, res) {
 
   switch (req.method) {
     case "POST":
-      console.log("reqbody", req.body);
+      
       let bodyObject = req.body;
       const { email, password, apiKey } = bodyObject;
-      console.log("bodyObject ", bodyObject);
+     
       if ((await db.collection("users").countDocuments({ email })) > 0) {
         return res.status(403).json({success: false, message: "The email has already been used."});
       }
       const user = await db
         .collection("users")
-        .insertOne({ email, password, apiKey });
+        .insertOne({ ...bodyObject });
+        console.log('user', user)
       if (user) {
           res.status(201).json({ success: true, user});
         if (!user)
