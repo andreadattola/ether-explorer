@@ -8,7 +8,7 @@ function* Login({ data }) {
   try {
     const body = setPayloadLogin(user);
     console.log("body", body);
-    const res = yield call((args) => axios.post("/api/login", args), body);
+    const res = yield call((args) => axios.post("/api/auth", args), body);
     console.log("res", res);
     if (!res)
       throw new Error({

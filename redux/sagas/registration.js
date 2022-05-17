@@ -8,7 +8,7 @@ function* Registration({ data }) {
   try {
     const body = setPayloadRegistration(user);
     console.log("body", body);
-    const res = yield call((args) => axios.post("/api/register", args), body);
+    const res = yield call((args) => axios.post("/api/users", args), body);
     console.log("res", res);
     if (!res)
       throw new Error({

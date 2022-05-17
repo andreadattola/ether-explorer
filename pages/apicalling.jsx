@@ -136,7 +136,7 @@ const ApiCalling = ({ users }) => {
   );
 };
 export default ApiCalling;
-export async function getServerSideProps() {
+/* export async function getServerSideProps() {
   let res = await fetch("http://localhost:3000/api/users", {
     method: "GET",
     headers: {
@@ -148,4 +148,4 @@ export async function getServerSideProps() {
   return {
     props: { users },
   };
-}
+} */
