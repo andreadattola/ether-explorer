@@ -14,13 +14,13 @@ const loginReducer = (state = initialState, action) =>
         const { data } = action;
 
         draft.user = { ...data.user };
-        draft.success = data.success;
+        draft.success = data.user ? true : false;
         draft.loginError = false
         break;
       }
       case LOGIN._ERROR: {
         console.log("action.type", action);
-        draft.loginError = action.error.response.data.message;
+        draft.loginError = action.error.response.data;
         draft.success = false
         break;
       }

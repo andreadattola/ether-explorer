@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Button, Link, TextField } from "@mui/material";
 import * as styles from "../styles/UserAuth.module.css";
+import toast from 'react-hot-toast';
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { REGISTRATION } from "../redux/actions/registration";
-import { LOGIN } from "../redux/actions/login";
+import { useCurrentUser } from "@/lib/user";
 export const Registration = () => {
   const {
     register,
@@ -20,6 +20,7 @@ export const Registration = () => {
   const dispatch = useDispatch();
   const registrationState = useSelector((state) => state.registration);
   const loginState = useSelector((state) => state.login);
+  const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
   const onSubmit = async (data) => {
     dispatch({ type: REGISTRATION._REQUEST, data });
   };
@@ -35,20 +36,15 @@ export const Registration = () => {
       });
     }
     if (registrationState.success) {
-      console.log("registrationState.success", registrationState.success);
-      const {
-        user: { insertedId },
-      } = registrationState;
-
-      if (!insertedId) return;
-      const data = { insertedId: insertedId };
-      dispatch({ type: LOGIN._REQUEST, data });
+      toast.success('Your account has been created');
+      router.replace('/');
     }
-    /*   const date = new Date()
-    const cookieData = {email: user.email, id : user._id, expiry: date.getDate() + 30}
-    document.cookie = `etherLogin=${JSON.stringify(cookieData)}`
-    router.push('/apicalling') */
-  }, [registrationState]);
+
+  }, [registrationState, mutate]); 
+  useEffect(() => {
+    if (isValidating) return;
+    if (user) router.replace('/home');
+  }, [user, router, isValidating]);
   useEffect(() => {
     console.log("selector", loginState);
     if (loginState.loginError) {

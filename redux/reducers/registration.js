@@ -1,5 +1,4 @@
 import produce from "immer";
-import { getRightDate } from "../../utils/getRightDate";
 import { REGISTRATION } from "../actions/registration";
 
 const initialState = {};
@@ -11,12 +10,12 @@ const registrationReducer = (state = initialState, action) =>
         const { data } = action;
 
         draft.user = { ...data.user };
-        draft.success = data.success;
+        draft.success = data.user? true : false;
         draft.registrationError = false;
         break;
       }
       case REGISTRATION._ERROR: {
-        draft.registrationError = action.error.response.data.message;
+        draft.registrationError = action.error.response.data
         draft.success = false
 
         break;

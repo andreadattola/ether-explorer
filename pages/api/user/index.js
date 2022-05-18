@@ -1,5 +1,5 @@
 import { ValidateProps } from '@/api-lib/constants';
-import { findUserByUsername, updateUserById } from '@/api-lib/db';
+import { findUserByApiKey, updateUserById } from '@/api-lib/db';
 import { auths, database, validateBody } from '@/api-lib/middlewares';
 import { ncOpts } from '@/api-lib/nc';
 import { slugUsername } from '@/lib/user';
@@ -39,6 +39,7 @@ handler.patch(
       username: ValidateProps.user.username,
       name: ValidateProps.user.name,
       bio: ValidateProps.user.bio,
+      apiKey: ValidateProps.user.apiKey
     },
     additionalProperties: true,
   }),
@@ -59,16 +60,17 @@ handler.patch(
     const { name, bio } = req.body;
 
     let username;
-
-    if (req.body.username) {
+    if (req.body.apiKey) {
       username = slugUsername(req.body.username);
+      
       if (
         username !== req.user.username &&
-        (await findUserByUsername(req.db, username))
+        (await findUserByApiKey(req.db, req.body.apiKey))
       ) {
+       
         res
           .status(403)
-          .json({ error: { message: 'The username has already been taken.' } });
+          .json({ error: { message: 'The apikey has already been taken.' } });
         return;
       }
     }

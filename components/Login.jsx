@@ -6,17 +6,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { LOGIN } from "../redux/actions/login";
+import { useCurrentUser } from "@/lib/user";
 
 export const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
-    reset,
     formState: { errors },
   } = useForm();
-  const [loginStatus, setLoginStatus] = React.useState("");
+  const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
   const router = useRouter();
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.login);
@@ -24,8 +23,11 @@ export const Login = () => {
     dispatch({ type: LOGIN._REQUEST, data });
   };
   useEffect(() => {
-    
-    console.log("selector", loginState);
+    console.log('user swr', )
+    if (isValidating) return;
+    if (user) router.replace('/');
+  }, [user, router, isValidating]);
+  useEffect(() => {
     if (loginState.loginError) {
       return setError("email", {
         type: "manual",
@@ -33,17 +35,7 @@ export const Login = () => {
       });
     }
     if(!loginState.loginError && loginState.success){
-      const {user} = loginState
-      const date = new Date();
-      console.log('user', user)
-      const cookieData = {
-        email: user.email,
-        id: user._id,
-        apikey : user.apiKey,
-        expiry: date.getDate() + 30,
-      };
-      document.cookie = `etherLogin=${JSON.stringify(cookieData)}`;
-      window.location.pathname === '/login' && router.push("/apicalling");
+      router.replace('/')
     }
   }, [loginState]);
 

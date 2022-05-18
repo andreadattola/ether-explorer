@@ -2,9 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import React from "react";
-import useLogin from "../utils/isLoggedIn";
+
 export default function Home() {
-  const isLogeddin = useLogin();
+
 
   return (
     <div className={styles.container}>

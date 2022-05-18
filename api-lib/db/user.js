@@ -29,7 +29,7 @@ export async function findUserByApiKey(db, apiKey) {
   return db
     .collection('users')
     .findOne({ apiKey }, { projection: dbProjectionUsers() })
-    .then((user) => user || null);
+    .then((user) => user || null );
 }
 
 export async function findUserByEmail(db, email) {
@@ -53,7 +53,7 @@ export async function updateUserById(db, id, data) {
 
 export async function insertUser(
   db,
-  { email, originalPassword, bio = '', name, profilePicture, username , apiKey}
+  { email, originalPassword, bio = '', name, profilePicture, username, apiKey }
 ) {
   const user = {
     emailVerified: false,

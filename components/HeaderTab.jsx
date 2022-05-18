@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/router";
-import useLogin from "../utils/isLoggedIn";
 import * as styles from "../styles/HeaderTab.module.css";
 import { shouldNotRendered } from "../utils/shouldNotRendered";
 
@@ -25,7 +24,8 @@ const pages = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export const HeaderTab = (props) => {
-  const isLoggedIn = useLogin();
+
+
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,7 +46,7 @@ if(shouldNotRendered(router.asPath)) return null
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  console.log("router", router);
+
   return (
     <AppBar className={styles.headBar} position="static">
       <Container maxWidth="xl">
@@ -119,8 +119,8 @@ if(shouldNotRendered(router.asPath)) return null
               </Button>
             ))}
           </Box>
-
-          {isLoggedIn.success && (
+{/** @todo controllare user */}
+          {false && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -151,7 +151,9 @@ if(shouldNotRendered(router.asPath)) return null
               </Menu>
             </Box>
           )}
-          {!isLoggedIn.success && (
+          {// @todo controllare user 
+          }
+          {true && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Login">
                 <IconButton onClick={() => router.push("/login")} sx={{ p: 0 }}>

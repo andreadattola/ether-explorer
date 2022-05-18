@@ -9,7 +9,7 @@ function* Login({ data }) {
     const body = setPayloadLogin(user);
     console.log("body", body);
     const res = yield call((args) => axios.post("/api/auth", args), body);
-    console.log("res", res);
+    console.log("res!!", res);
     if (!res)
       throw new Error({
         error: "CHIAMATA NON VALIDA",
@@ -18,7 +18,7 @@ function* Login({ data }) {
       });
     const { data } = res;
     if (data.error) throw data;
-
+      
     yield put({ type: LOGIN._SUCCESS, data });
   } catch (error) {
     yield put({ type: LOGIN._ERROR, error });

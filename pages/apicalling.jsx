@@ -11,15 +11,13 @@ import Chart from "../components/Chart";
 import CustomPieChart from "../components/PieChart";
 import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
-
-import useLogin from "../utils/isLoggedIn";
 import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
 import { GraphUI } from "../components/Graph";
 import { JsonTable } from "../components/Table";
+import { useCurrentUser } from "@/lib/user";
 
 const ApiCalling = ({ users }) => {
   console.log("users", users);
-  const use = useLogin()
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");
@@ -28,11 +26,11 @@ const ApiCalling = ({ users }) => {
   const [res, setRes] = useState("");
   const router = useRouter();
 
+  const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
   useEffect(() => {
-    const cookie = getCookieValue("etherLogin");
-    console.log("cookie", cookie);
-    if (!cookie) router.push("/login");
-  }, [router]);
+    if (isValidating) return;
+    if (!user) router.replace('/login');
+  }, [user, router, isValidating]);
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {
