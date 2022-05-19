@@ -57,9 +57,10 @@ handler.patch(
       });
       profilePicture = image.secure_url;
     }
-    const { name, bio } = req.body;
+    const { name, bio , apiKey} = req.body;
 
     let username;
+    /** @todo add same mothod for username */
     if (req.body.apiKey) {
       username = slugUsername(req.body.username);
       
@@ -80,6 +81,7 @@ handler.patch(
       ...(name && { name }),
       ...(typeof bio === 'string' && { bio }),
       ...(profilePicture && { profilePicture }),
+      ...(apiKey && { apiKey }),
     });
 
     res.json({ user });

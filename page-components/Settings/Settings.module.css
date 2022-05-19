@@ -1,6 +1,6 @@
 .card {
   margin-bottom: 1rem;
-  background: var(--background);
+  background: 'red';
   border-radius: 5px;
   border: 1px solid var(--accents-2);
   padding: 24px;

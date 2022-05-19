@@ -14,19 +14,25 @@ import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/router";
 import * as styles from "../styles/HeaderTab.module.css";
 import { shouldNotRendered } from "../utils/shouldNotRendered";
+import { useCurrentUser } from "@/lib/user";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const pages = [
   { route:  "/", label: "Home" },
-  { route: "/apicalling", label: "Analisi" },
-  { route: "/profile", label: "Profile" },
+  { route: "/apicalling", label: "CheckEther" },
+  { route: "/settings", label: "Profile" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Settings", "Account", "Dashboard", "Logout"];
 
 export const HeaderTab = (props) => {
-
-
   const router = useRouter();
+
+  const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
+  React.useEffect(() => {
+    if (isValidating) return;
+  }, [user, router, isValidating]);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 if(shouldNotRendered(router.asPath)) return null
@@ -39,14 +45,14 @@ if(shouldNotRendered(router.asPath)) return null
 
   const handleCloseNavMenu = (event) => {
     const {target:{name}} = event
-    router.push(name)
+    router.replace(name)
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+if(!user) return null
   return (
     <AppBar className={styles.headBar} position="static">
       <Container maxWidth="xl">
@@ -120,11 +126,11 @@ if(shouldNotRendered(router.asPath)) return null
             ))}
           </Box>
 {/** @todo controllare user */}
-          {false && (
+          {user && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <SettingsIcon/>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -153,10 +159,10 @@ if(shouldNotRendered(router.asPath)) return null
           )}
           {// @todo controllare user 
           }
-          {true && (
+          {!user && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Login">
-                <IconButton onClick={() => router.push("/login")} sx={{ p: 0 }}>
+                <IconButton onClick={() => router.replace("/login")} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </IconButton>
               </Tooltip>

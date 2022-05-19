@@ -13,9 +13,10 @@ const Chart = (props) => {
   const [dataChart, setDataCharts] = React.useState({ loading: true });
 
   useEffect(() => {
-    if (!props.data) return;
+    if (!props.data || props.data.result.length < 1) return;
     const data = [];
     const { result: results } = props.data;
+    if(!results || results.length === 0) return
     const gas = results?.map((data) => data.gas);
     const timeStamp = results.map((data) => data.timeStamp);
     gas.map((el, i) => {

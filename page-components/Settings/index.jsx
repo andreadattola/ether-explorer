@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Settings.module.css';
 
+
 const EmailVerify = ({ user }) => {
   const [status, setStatus] = useState();
   const verify = useCallback(async () => {
@@ -111,7 +112,7 @@ const AboutYou = ({ user, mutate }) => {
   const apiKeyRef = useRef();
   const nameRef = useRef();
   const bioRef = useRef();
-  const profilePictureRef = useRef();
+  const profilePictureRef = useRef(null);
 
   const [avatarHref, setAvatarHref] = useState(user.profilePicture);
   const onAvatarChange = useCallback((e) => {
@@ -139,6 +140,7 @@ const AboutYou = ({ user, mutate }) => {
         if (profilePictureRef.current.files[0]) {
           formData.append('profilePicture', profilePictureRef.current.files[0]);
         }
+        console.log('formData', formData)
         const response = await fetcher('/api/user', {
           method: 'PATCH',
           body: formData,
@@ -175,8 +177,8 @@ const AboutYou = ({ user, mutate }) => {
         <Spacer size={0.5} axis="vertical" />
         <Textarea ref={bioRef} label="Your Bio" />
         <Spacer size={0.5} axis="vertical" />
-        <span className={styles.label}>Your Avatar</span>
-        <div className={styles.avatar}>
+         <span  style={{display: 'none'}}  className={styles.label}>Your Avatar</span>
+        <div style={{display: 'none'}} className={styles.avatar}>
           <Avatar size={96} username={user.username} url={avatarHref} />
           <input
             aria-label="Your Avatar"
@@ -186,7 +188,7 @@ const AboutYou = ({ user, mutate }) => {
             onChange={onAvatarChange}
           />
         </div>
-        <Spacer size={0.5} axis="vertical" />
+        <Spacer size={0.5} axis="vertical" /> 
         <Button
           htmlType="submit"
           className={styles.submit}

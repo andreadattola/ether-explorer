@@ -1,28 +1,15 @@
-import { Login } from "../components/Login";
-import * as styles from "../styles/UserAuth.module.css";
+import { Login } from '@/page-components/Auth';
+import Head from 'next/head';
 
-const SignIn = () => {
+const LoginPage = () => {
   return (
-    <div className="container">
-      <div className={styles.loginCard}>
-        <div className={styles.leftSideLoginCard}>
-          <p className={styles.leftSideLoginCardTitle}>Welcome</p>
-          <p className={styles.leftSideLoginCardText}>Entra sei il benvenuto</p>
-          <li className={styles.liLoginCard, styles.leftSideLoginCardText}>
-            Create a ...
-          </li>
-          <li className={styles.liLoginCard, styles.leftSideLoginCardText}>
-            Create a ...
-          </li>
-          <li className={styles.liLoginCard, styles.leftSideLoginCardText}>
-            Create a ...
-          </li>
-        </div>
-        <div className={styles.RightSideLoginCard}>
-          <Login />
-        </div>
-      </div>
-    </div>
+    <>
+      <Head>
+        <title>Login!</title>
+      </Head>
+      <Login />
+    </>
   );
 };
-export default SignIn;
+
+export default LoginPage;

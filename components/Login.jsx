@@ -27,6 +27,7 @@ export const Login = () => {
     if (isValidating) return;
     if (user) router.replace('/');
   }, [user, router, isValidating]);
+  
   useEffect(() => {
     if (loginState.loginError) {
       return setError("email", {

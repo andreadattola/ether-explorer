@@ -89,13 +89,16 @@ handler.post(
       apiKey: { type: "string", minLength: 1, maxLength: 50 },
       password: { type: "string", minLength: 8 },
       email: { type: "string", minLength: 1 },
+      name : {type : "string", minLength : 1},
+      username : {type : "string", minLength : 1},
+      bio : {type : "string", minLength : 0}
     },
     required: [ "apiKey", "password", "email"],
     additionalProperties: false,
   }),
   ...auths,
   async (req, res) => {
-    const { apiKey, email, password } = req.body;
+    const { apiKey, email, password, name, bio, username } = req.body;
   
     if (!email) {
       res
@@ -119,12 +122,13 @@ handler.post(
       email,
       apiKey,
       originalPassword: password,
-      bio: '',
-      name: '',
-      username: '',
+      bio,
+      name,
+      username,
     });
+    console.log('user', user)
     req.logIn(user, (err) => {
-      if (err) throw err;
+      if (err) throw {error : err, message : 'this'};
       res.status(201).json({
         user,
       });

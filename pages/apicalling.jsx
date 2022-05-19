@@ -65,8 +65,8 @@ const ApiCalling = ({ users }) => {
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
     delete reduced.action;
-    console.log('useapikey', use.user.apiKey)
-    use.user?.apiKey ? reduced.apikey = use.user?.apiKey : null
+  
+    user?.apiKey ? reduced.apikey = user?.apiKey : null
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
