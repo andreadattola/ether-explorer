@@ -14,7 +14,7 @@ function GraphPost(props) {
   const [loading, setLoading] = React.useState();
   const [etherPriceData, setEheterPriceData] = React.useState();
   const callHistoricalEthPrice = async () => {
-    const response = await axios.get(config.api.getEthLastPrice);
+    const response = await axios.get(config.homeApi.getEthLastPrice);
     console.log("response", response);
     const etherHistoricalPrice = response.data;
     setEheterPriceData(etherHistoricalPrice);

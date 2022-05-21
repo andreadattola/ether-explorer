@@ -163,7 +163,6 @@ export const GraphUI = (props) => {
     },
   };
   const refreshSelection = (selected) => {
-    console.log("graph", graph);
 
     setGraph(
       {

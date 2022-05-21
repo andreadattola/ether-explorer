@@ -16,8 +16,7 @@ import { GraphUI } from "../components/Graph";
 import { JsonTable } from "../components/Table";
 import { useCurrentUser } from "@/lib/user";
 
-const ApiCalling = ({ users }) => {
-  console.log("users", users);
+const ApiCalling = () => {
   const apiEndpoints = Object.keys(config.api);
   const [apiSelected, setApiSelected] = useState("");
   const [requiredParams, setRequiredParams] = useState("");

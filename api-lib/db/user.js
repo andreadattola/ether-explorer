@@ -64,7 +64,6 @@ export async function insertUser(
     bio,
     apiKey
   };
-  console.log('userbef', user)
   const password = await bcrypt.hash(originalPassword, 10);
   const { insertedId } = await db
     .collection('users')

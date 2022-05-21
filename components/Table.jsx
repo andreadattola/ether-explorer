@@ -22,7 +22,7 @@ export const JsonTable = (props) => {
     setPage(0);
   };
   React.useEffect(() => {
-    if (!props.results) return;
+    if (!props.results || props.results.length === 0) return;
     const { results } = props;
     console.log("results", results);
     const columnsTemp = Object.keys(results[0]).map((key) => ({
@@ -39,7 +39,13 @@ export const JsonTable = (props) => {
     if (!columns) return;
     console.log("columns", columns);
   }, [columns]);
-  if(!props.results || props.results === 'Invalid API Key') return <p>{props.results || 'La ricerca non ha prodotto risultati'}</p>
+
+  if (
+    !props.results ||
+    props.results === "Invalid API Key" ||
+    props.results.length === 0
+  )
+    return <p>{"La ricerca non ha prodotto risultati"}</p>;
   return columns ? (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -59,30 +65,31 @@ export const JsonTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.results && props.results
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((row) => {
-                return (
-                  <TableRow
-                    className={styles.tableRows}
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.code}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {props.results &&
+              props.results
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.map((row) => {
+                  return (
+                    <TableRow
+                      className={styles.tableRows}
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>

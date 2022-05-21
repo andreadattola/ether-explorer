@@ -6,7 +6,10 @@ export const getApiName = (name) =>{
         getInternalTransactionsListByAddress : 'Internal transactions list by address',
         getInternalTransactionsByTransactionHash: 'Internal transactions by transactions hash ',
         getNftErc726 : 'NFT ERC726',
-        getListOfERC20TokenTransferEvents :'List of ERC20 token transfer events'
+        getListOfERC20TokenTransferEvents :'List of ERC20 token transfer events',
+        getListOfBlocksMinedByAddress : 'List of mined block by address',
+        getContractABIforVerifiedContractSource: 'ABI contract for verified contract'
+
     }
     return apisName[name] || 'name not avaiable... X'
 }

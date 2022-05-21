@@ -21,7 +21,7 @@ const SignUp = () => {
   const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
   useEffect(() => {
     if (isValidating) return;
-    if (user) router.replace('/');
+    if (user) router.replace('/home');
   }, [user, router, isValidating]);
 
 

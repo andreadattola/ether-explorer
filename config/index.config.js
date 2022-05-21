@@ -7,10 +7,13 @@ const endpointURLs = {
 };
 export const etherscanApiKey = "RXYC3E88FG1J5E4EW8557Y8H2FBWRREXGE"; // https://etherscan.io/myapikey 4 marzo
 export const config = {
-  api: {
+  homeApi: {
     getEtherHistoricalPrice: `${endpointURLs.Mainnet}/api?module=stats&action=ethdailymarketcap&startdate=2019-02-01&enddate=${new Date().toISOString().split('T')[0]}&sort=asc&apikey=${etherscanApiKey}`, //pro
     getEthLastPrice: `${endpointURLs.Mainnet}/api?module=stats&action=ethprice&apikey=${etherscanApiKey}`,
     getTotalNodesCount: `${endpointURLs.Mainnet}/api?module=stats&action=nodecount&apikey=${etherscanApiKey}`,
+  },
+  api: {
+
     getEtherBalanceForSingleAddress: (
       address = "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae",
       tag = "latest",
@@ -95,10 +98,19 @@ export const config = {
       contractaddress = '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
       address = '0x4e83362442b8d1bec281594cea3050c8eb01311c',
       page = 1,
-      offset = 100,
+      offset = 10,
       startblock = 0,
       endblock = 27025780,
       sort = 'asc',
-      apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=account&action=tokentx&contractaddress=${contractaddress}&address=${address}&page=${page}&offset=${offset}&startblock=${startblock}&endblock=${endblock}&sort=${sort}&apikey=${apikey}`
+      apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=account&action=tokentx&contractaddress=${contractaddress}&address=${address}&page=${page}&offset=${offset}&startblock=${startblock}&endblock=${endblock}&sort=${sort}&apikey=${apikey}`,
+      getListOfBlocksMinedByAddress: (
+        address = '0x4e83362442b8d1bec281594cea3050c8eb01311c',
+        blockType = 'blocks',
+        page = 1,
+        offset = 100,
+        apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=account&action=getminedblocks&address=${address}&blocktype=${blockType}&page=${page}&offset=${offset}&apikey=${apikey}`,
+        //contracts
+    
+        getContractABIforVerifiedContractSource : (address='0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=contract&action=getabi&address=${address}&apikey=${apikey}`
   },
 };

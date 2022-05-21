@@ -14,7 +14,7 @@ function FeaturedPost(props) {
   const [loading, setLoading] = React.useState();
   const [totalNodesCount, setTotalNodesCount] = React.useState();
   const callTotalNodesCount = async () => {
-    const response = await axios.get(config.api.getTotalNodesCount);
+    const response = await axios.get(config.homeApi.getTotalNodesCount);
     console.log("response", response);
     
     setTotalNodesCount(response.data);
