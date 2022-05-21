@@ -37,7 +37,7 @@ export const Registration = () => {
     }
     if (registrationState.success) {
       toast.success('Your account has been created');
-      router.replace('/');
+      router.replace('/home');
     }
 
   }, [registrationState, mutate]); 

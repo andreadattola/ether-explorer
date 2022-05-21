@@ -8,6 +8,9 @@ const endpointURLs = {
 export const etherscanApiKey = "RXYC3E88FG1J5E4EW8557Y8H2FBWRREXGE"; // https://etherscan.io/myapikey 4 marzo
 export const config = {
   api: {
+    getEtherHistoricalPrice: `${endpointURLs.Mainnet}/api?module=stats&action=ethdailymarketcap&startdate=2019-02-01&enddate=${new Date().toISOString().split('T')[0]}&sort=asc&apikey=${etherscanApiKey}`, //pro
+    getEthLastPrice: `${endpointURLs.Mainnet}/api?module=stats&action=ethprice&apikey=${etherscanApiKey}`,
+    getTotalNodesCount: `${endpointURLs.Mainnet}/api?module=stats&action=nodecount&apikey=${etherscanApiKey}`,
     getEtherBalanceForSingleAddress: (
       address = "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae",
       tag = "latest",

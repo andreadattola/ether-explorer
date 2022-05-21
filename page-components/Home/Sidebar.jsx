@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { CardMedia } from '@mui/material';
 
 function Sidebar(props) {
   const { archives, description, social, title } = props;
@@ -17,14 +18,12 @@ function Sidebar(props) {
         </Typography>
         <Typography>{description}</Typography>
       </Paper>
-      <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-        Archives
-      </Typography>
-      {archives.map((archive) => (
-        <Link display="block" variant="body1" href={archive.url} key={archive.title}>
-          {archive.title}
-        </Link>
-      ))}
+      <CardMedia
+            component="img"
+            sx={{  display: { xs: "none", sm: "block" } }}
+            image={'https://source.unsplash.com/random'}
+           
+          />
 
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         Social
@@ -33,7 +32,7 @@ function Sidebar(props) {
         <Link
           display="block"
           variant="body1"
-          href="#"
+          href={network.link}
           key={network.name}
           sx={{ mb: 0.5 }}
         >

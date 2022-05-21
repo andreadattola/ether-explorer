@@ -36,7 +36,7 @@ export const Login = () => {
       });
     }
     if(!loginState.loginError && loginState.success){
-      router.replace('/')
+      router.replace('/home')
     }
   }, [loginState]);
 

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import axios from 'axios';
+import { config } from "../../config/index.config";
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -9,28 +11,50 @@ import CardMedia from '@mui/material/CardMedia';
 
 function FeaturedPost(props) {
   const { post } = props;
+  const [loading, setLoading] = React.useState();
+  const [totalNodesCount, setTotalNodesCount] = React.useState();
+  const callTotalNodesCount = async () => {
+    const response = await axios.get(config.api.getTotalNodesCount);
+    console.log("response", response);
+    
+    setTotalNodesCount(response.data);
+  };
 
+  React.useEffect(() => {
+    setLoading(true);
+    callTotalNodesCount();
+  }, []);
+  React.useEffect(() => {
+    if (!totalNodesCount) return;
+    setLoading(false);
+    console.log("totalNodesCount", totalNodesCount);
+  }, [totalNodesCount]);
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea component="a" href="#">
-        <Card sx={{ display: 'flex' }}>
+        <Card sx={{ display: "flex" }}>
           <CardContent sx={{ flex: 1 }}>
             <Typography component="h2" variant="h5">
               {post.title}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              {post.date}
+            {totalNodesCount ? (
+              <>
+            <Typography component="h2" variant="h3" color="text.primary">
+              {` ${totalNodesCount.result.TotalNodeCount} `} 
             </Typography>
-            <Typography variant="subtitle1" paragraph>
-              {post.description}
-            </Typography>
-            <Typography variant="subtitle1" color="primary">
-              Continue reading...
-            </Typography>
+             <Typography component="p" variant="p" color="text.primary">
+             {`${new Date(totalNodesCount.result.UTCDate).toLocaleDateString('en-US')}`} 
+           </Typography>           
+           </>
+          ) : (
+            "Loading price..."
+          )}
+
           </CardContent>
+         
           <CardMedia
             component="img"
-            sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+            sx={{ width: 160, display: { xs: "none", sm: "block" } }}
             image={post.image}
             alt={post.imageLabel}
           />
