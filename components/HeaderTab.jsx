@@ -53,8 +53,7 @@ export const HeaderTab = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  if(!user && !router.pathname ==='/home') return null
-  if(!user) {
+  if(!user && router.pathname ==='/home') {
     return (
       <AppBar>
         <Container>
@@ -73,7 +72,7 @@ export const HeaderTab = (props) => {
         </Container>
       </AppBar>
     );
-  } else{
+  } else if(user){
     return (
       <AppBar className={styles.headBar} position="static">
         <Container maxWidth="xl">
