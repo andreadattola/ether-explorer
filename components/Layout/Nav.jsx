@@ -1,16 +1,17 @@
-import { Avatar } from '@/components/Avatar';
-import { Button, ButtonLink } from '@/components/Button';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { fetcher } from '@/lib/fetch';
-import { useCurrentUser } from '@/lib/user';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
-import Container from './Container';
-import styles from './Nav.module.css';
-import Spacer from './Spacer';
-import Wrapper from './Wrapper';
+import { Avatar } from "@/components/Avatar";
+import { Button, ButtonLink } from "@/components/Button";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { fetcher } from "@/lib/fetch";
+import { useCurrentUser } from "@/lib/user";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import Container from "./Container";
+import styles from "./Nav.module.css";
+import Spacer from "./Spacer";
+import Wrapper from "./Wrapper";
+import {Text} from '../Text'
 
 const UserMenu = ({ user, mutate }) => {
   const menuRef = useRef();
@@ -21,9 +22,9 @@ const UserMenu = ({ user, mutate }) => {
   const router = useRouter();
   useEffect(() => {
     const onRouteChangeComplete = () => setVisible(false);
-    router.events.on('routeChangeComplete', onRouteChangeComplete);
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
     return () =>
-      router.events.off('routeChangeComplete', onRouteChangeComplete);
+      router.events.off("routeChangeComplete", onRouteChangeComplete);
   });
 
   useEffect(() => {
@@ -36,18 +37,18 @@ const UserMenu = ({ user, mutate }) => {
         setVisible(false);
       }
     };
-    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener("mousedown", onMouseDown);
     return () => {
-      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener("mousedown", onMouseDown);
     };
   }, []);
 
   const onSignOut = useCallback(async () => {
     try {
-      await fetcher('/api/auth', {
-        method: 'DELETE',
+      await fetcher("/api/auth", {
+        method: "DELETE",
       });
-      toast.success('You have been signed out');
+      toast.success("You have been signed out");
       mutate({ user: null });
     } catch (e) {
       toast.error(e.message);
@@ -61,7 +62,15 @@ const UserMenu = ({ user, mutate }) => {
         ref={avatarRef}
         onClick={() => setVisible(!visible)}
       >
-        <Avatar size={32} username={user.username} url={user.profilePicture} />
+        {user.profilePicture ? (
+          <Avatar
+            size={32}
+            username={user.username}
+            url={user.profilePicture}
+          />
+        ) : (
+          <Text>{user.username }</Text>
+        )}
       </button>
       <div
         ref={menuRef}
@@ -71,13 +80,16 @@ const UserMenu = ({ user, mutate }) => {
       >
         {visible && (
           <div className={styles.menu}>
-            <Link passHref href={`/user/${user.username}`}>
-              <a className={styles.item}>Profile</a>
+            <Link passHref href={`/home`}>
+              <a className={styles.item}>Home</a>
             </Link>
             <Link passHref href="/settings">
-              <a className={styles.item}>Settngs</a>
+              <a className={styles.item}>Settings</a>
             </Link>
-            <div className={styles.item} style={{ cursor: 'auto' }}>
+            <Link passHref href="/apicalling">
+              <a className={styles.item}>Ether scan</a>
+            </Link>
+            <div className={styles.item} style={{ cursor: "auto" }}>
               <Container alignItems="center">
                 <span>Theme</span>
                 <Spacer size={0.5} axis="horizontal" />
@@ -105,8 +117,8 @@ const Nav = () => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Link href="/">
-            <a className={styles.logo}>Next.js MongoDB App</a>
+          <Link href="/home">
+            <a className={styles.logo}>Ether scan Unipi project</a>
           </Link>
           <Container>
             {user ? (

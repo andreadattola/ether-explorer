@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import Link from "next/link";
 
 function Main(props) {
-  const { posts, title } = props;
+  const {  title } = props;
 
   return (
     <Grid
@@ -96,7 +96,6 @@ function Main(props) {
 }
 
 Main.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
 };
 
