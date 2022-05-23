@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Andrea Dattola's thesis project</title>
+        <title>Andrea Dattola thesis project</title>
         <meta
           key="viewport"
           name="viewport"
