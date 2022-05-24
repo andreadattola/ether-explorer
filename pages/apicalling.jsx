@@ -15,6 +15,7 @@ import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
 import { GraphUI } from "../components/Graph";
 import { JsonTable } from "../components/Table";
 import { useCurrentUser } from "@/lib/user";
+import { MuiTable } from "@/components/MuiTable";
 
 const ApiCalling = () => {
   const apiEndpoints = Object.keys(config.api);
@@ -28,7 +29,7 @@ const ApiCalling = () => {
   const { data: { user } = {}, mutate, isValidating } = useCurrentUser();
   useEffect(() => {
     if (isValidating) return;
-    if (!user) router.replace('/login');
+    if (!user) router.replace("/login");
   }, [user, router, isValidating]);
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
@@ -64,8 +65,8 @@ const ApiCalling = () => {
     }, {});
     delete reduced["https://api.etherscan.io/api?module"];
     delete reduced.action;
-  
-    user?.apiKey ? reduced.apikey = user?.apiKey : null
+
+    user?.apiKey ? (reduced.apikey = user?.apiKey) : null;
     setInputsValue(reduced);
     let inputs = Object.keys(reduced).map((paramKey) => (
       <ParamInput
@@ -79,17 +80,16 @@ const ApiCalling = () => {
   }, [apiSelected]);
   const handleClick = () => {
     const paramValue = Object.keys(inputsValue).map((key) => inputsValue[key]);
-    console.log("paramvalue", paramValue);
     axios.get(config.api[apiSelected](...paramValue)).then((res) => {
+      console.log('res.data', res.data)
       setRes(res.data);
     });
   };
   useEffect(() => {
-    if (!res || apiSelected !== "getInternalTransactionsListByAddress") return;
+    if (!res || res.length === 0 || !res.result || res.result.length === 0 || typeof res.result === 'string') return;
 
     const { result: results } = res;
     results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
-    console.log("res time stamp", res);
   }, [apiSelected, res]);
 
   return (
@@ -118,14 +118,16 @@ const ApiCalling = () => {
 
         {renderChart && <Chart data={res} />}
 
-        {res && (
-          <div style={{ background: "white" }}>
-            <JsonTable results={res.result} />
+        {res && typeof res.result !== "string" && res.result.length !== 0 ? (
+          <div>
+            <MuiTable results={res.result} />
             <WrapperDownloadButtons
               result={res?.result}
               apiSelected={apiSelected}
             />
           </div>
+        ) : (
+          <div> {apiSelected && res.result ? (`${apiSelected} : ${res.result || 'somethings goes wrong'}` ) : null}</div>
         )}
         {renderCharts[apiSelected]}
       </div>

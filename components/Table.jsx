@@ -9,6 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import * as styles from "../styles/Table.module.css";
 import { Load } from "./Load";
+import { Text } from "./Text";
 
 export const JsonTable = (props) => {
   const [columns, setColumns] = React.useState();
@@ -46,6 +47,9 @@ export const JsonTable = (props) => {
     props.results.length === 0
   )
     return <p>{"La ricerca non ha prodotto risultati"}</p>;
+    if(typeof props.results === 'string'){
+      return <Text >  the Ether balance of a passed address is:  {props.results}</Text>
+    }
   return columns ? (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -65,7 +69,7 @@ export const JsonTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.results &&
+            {
               props.results
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 ?.map((row) => {

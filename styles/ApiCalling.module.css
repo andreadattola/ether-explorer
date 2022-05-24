@@ -7,8 +7,7 @@
 }
 .wrapperInputs {
   margin: auto;
-  width: 600px;
-  background: var(--primaryLight);
+  width: 100%;
   margin-bottom: 4rem;
 }
 .textInputLabel {

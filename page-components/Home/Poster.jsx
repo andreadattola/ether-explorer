@@ -33,7 +33,7 @@ const featuredPosts = [
     title: "Total node Count",
     date: "Nov 12",
     description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      "",
     image: "https://source.unsplash.com/random",
     imageLabel: "Image Text",
   },
@@ -43,21 +43,12 @@ const sidebar = {
   title: "About",
   description:
     "In trying to understand what blockchain is, we will rely in many cases on the definitions that are proposed, trying to qualify them. For some, blockchain is the next generation of the Internet, or better still, it is the New Internet. It is considered to represent a kind of Internet of Transactions. These definitions tend to place blockchain alongside the Internet of People, or the Internet of the people we use and frequent every day, which has in turn expanded to the Internet of Things or the Internet of Things to create and represent the Internet of Value on the basis of seven characteristics:",
-  archives: [
-    { title: "March 2020", url: "#" },
-    { title: "February 2020", url: "#" },
-    { title: "January 2020", url: "#" },
-    { title: "November 1999", url: "#" },
-    { title: "October 1999", url: "#" },
-    { title: "September 1999", url: "#" },
-    { title: "August 1999", url: "#" },
-    { title: "July 1999", url: "#" },
-    { title: "June 1999", url: "#" },
-    { title: "May 1999", url: "#" },
-    { title: "April 1999", url: "#" },
-  ],
   social: [
-    { name: "GitHub", icon: GitHubIcon , link : 'https://github.com/andreadattola'},
+    {
+      name: "GitHub",
+      icon: GitHubIcon,
+      link: "https://github.com/andreadattola",
+    },
   ],
 };
 
