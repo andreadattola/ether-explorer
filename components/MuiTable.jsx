@@ -1,12 +1,13 @@
 import MUIDataTable from "mui-datatables";
 import React, { useEffect } from "react";
+import { getApiName } from "utils/getApiName";
 import { Load } from "./Load";
 
 export const MuiTable = (props) => {
   const [loading, setLoading] = React.useState(true);
   const [dataTable, setDataTable] = React.useState();
   const options = {
-    filterType: 'checkbox',
+    filterType: 'select',
   };
   React.useEffect(() => {
     if (
@@ -29,7 +30,6 @@ export const MuiTable = (props) => {
           },
         })
     );
-    console.log("columns", columns);
     setDataTable({ columns, data: results });
   }, [props.results]);
   useEffect(() => {
@@ -39,7 +39,7 @@ export const MuiTable = (props) => {
   if (loading) return <Load/>;
   return (
     <MUIDataTable
-      title={"Employee List"}
+      title={getApiName(props.title) || 'Table'}
       data={dataTable.data || []}
       columns={dataTable.columns}
       options={options}

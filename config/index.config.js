@@ -103,7 +103,7 @@ export const config = {
       endblock = 27025780,
       sort = 'asc',
       apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=account&action=tokentx&contractaddress=${contractaddress}&address=${address}&page=${page}&offset=${offset}&startblock=${startblock}&endblock=${endblock}&sort=${sort}&apikey=${apikey}`,
-      getListOfBlocksMinedByAddress: (
+    /*   getListOfBlocksMinedByAddress: (
         address = '0x4e83362442b8d1bec281594cea3050c8eb01311c',
         blockType = 'blocks',
         page = 1,
@@ -112,5 +112,5 @@ export const config = {
         //contracts
     
         getContractABIforVerifiedContractSource : (address='0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',apikey = etherscanApiKey) => `${endpointURLs.Mainnet}/api?module=contract&action=getabi&address=${address}&apikey=${apikey}`
-  },
+  */ },
 };

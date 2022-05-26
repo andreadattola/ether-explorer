@@ -9,6 +9,9 @@
   margin: auto;
   width: 100%;
   margin-bottom: 4rem;
+  background-color: var(--wrapper-inputs-form);
+  padding: 2rem;
+  border-radius: 1rem;
 }
 .textInputLabel {
   color: var(--primaryText);

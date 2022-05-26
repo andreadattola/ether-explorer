@@ -14,7 +14,7 @@ export const SelectApi = (props) => {
   return (
     <FormControl className={styles.form} fullWidth>
       <InputLabel className={styles.textInputLabel} id="demo-simple-select-label">
-        {props.apiSelected}
+        {getApiName(props.apiSelected)}
       </InputLabel>
       <Select
         className={styles.select}

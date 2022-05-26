@@ -6,14 +6,11 @@ import { ParamInput } from "../components/ParamInput";
 import { Button } from "@mui/material";
 import * as styles from "../styles/ApiCalling.module.css";
 import axios from "axios";
-import { getRightDate } from "../utils/getRightDate";
 import Chart from "../components/Chart";
 import CustomPieChart from "../components/PieChart";
-import { getCookieValue } from "../utils/getCookie";
 import { useRouter } from "next/router";
 import { WrapperDownloadButtons } from "../components/WrapperDownloadButtons";
 import { GraphUI } from "../components/Graph";
-import { JsonTable } from "../components/Table";
 import { useCurrentUser } from "@/lib/user";
 import { MuiTable } from "@/components/MuiTable";
 
@@ -34,8 +31,9 @@ const ApiCalling = () => {
   const renderChart =
     res && apiSelected === "getInternalTransactionsListByAddress";
   const renderCharts = {
-    getInternalTransactionsByTransactionHash: <CustomPieChart></CustomPieChart>,
+   // getInternalTransactionsByTransactionHash: <CustomPieChart/>,
     getListOfERC20TokenTransferEvents: <GraphUI res={res} />,
+   // getTransactionsByAddress : <div>Graph load..</div>
   };
   const handleChange = (event) => {
     console.log("change", event);
@@ -82,15 +80,12 @@ const ApiCalling = () => {
     const paramValue = Object.keys(inputsValue).map((key) => inputsValue[key]);
     axios.get(config.api[apiSelected](...paramValue)).then((res) => {
       console.log('res.data', res.data)
-      setRes(res.data);
+      const resulted = res.data
+      resulted.result.map((el)=> el.timeStamp = new Date(+el.timeStamp).toLocaleString())
+      setRes(resulted);
     });
   };
-  useEffect(() => {
-    if (!res || res.length === 0 || !res.result || res.result.length === 0 || typeof res.result === 'string') return;
 
-    const { result: results } = res;
-    results.map((res) => (res.timeStamp = getRightDate(+res.timeStamp)));
-  }, [apiSelected, res]);
 
   return (
     <React.Fragment>
@@ -120,7 +115,7 @@ const ApiCalling = () => {
 
         {res && typeof res.result !== "string" && res.result.length !== 0 ? (
           <div>
-            <MuiTable results={res.result} />
+            <MuiTable results={res.result} title={apiSelected} />
             <WrapperDownloadButtons
               result={res?.result}
               apiSelected={apiSelected}
